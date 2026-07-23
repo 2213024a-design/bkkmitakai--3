@@ -528,6 +528,73 @@
       .td-year { text-align: left; }
     }
 
+    /* ─── NEWS ─── */
+    #news {
+      background: var(--white);
+    }
+    .news-inner { max-width: 900px; margin: 0 auto; }
+    .news-list {
+      margin-top: 8px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .news-item {
+      display: flex;
+      align-items: baseline;
+      gap: 28px;
+      padding: 22px 4px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      transition: background 0.25s;
+    }
+    .news-item:hover { background: #faf8f3; }
+    .news-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+      width: 100px;
+    }
+    .news-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--crimson);
+      border: 1px solid rgba(155,29,40,0.3);
+      padding: 2px 10px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .news-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.92rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    @media (max-width: 640px) {
+      .news-item { flex-wrap: wrap; gap: 8px 16px; }
+      .news-date { width: auto; }
+    }
+    .news-more {
+      display: flex; justify-content: flex-end;
+      margin-top: 24px;
+    }
+    .news-more-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      color: var(--navy);
+      text-decoration: none;
+      border: 1px solid rgba(0,31,97,0.25);
+      padding: 10px 20px;
+      transition: all 0.25s;
+    }
+    .news-more-btn:hover {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
+    }
+    .news-more-btn span { font-size: 1rem; }
+
     /* ─── EVENTS ─── */
     #events {
       background: var(--cream);
@@ -934,6 +1001,7 @@
 <nav>
   <div class="nav-logo"><span>バンコク</span>三田会</div>
   <ul class="nav-links">
+    <li><a href="#news">ニュース</a></li>
     <li><a href="#chairman">会長挨拶</a></li>
     <li><a href="#officers">役員紹介</a></li>
     <li><a href="#events">主な行事</a></li>
@@ -962,6 +1030,48 @@
   </div>
 </section>
 
+<!-- NEWS -->
+<section id="news">
+  <div class="news-inner">
+    <div class="reveal">
+      <div class="section-label">LATEST UPDATES</div>
+      <h2 class="section-title">ニュース</h2>
+      <div class="section-title-en">News & Announcements</div>
+      <div class="title-line"></div>
+    </div>
+    <div class="news-list reveal">
+      <div class="news-item">
+        <span class="news-date">2026.06.05</span>
+        <span class="news-tag">ゴルフ</span>
+        <span class="news-title">第316回ゴルフ例会 開催のご案内</span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2026.06.04</span>
+        <span class="news-tag">早慶戦</span>
+        <span class="news-title">第178回早慶対抗ゴルフ 結果報告</span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2026.04.02</span>
+        <span class="news-tag">早慶戦</span>
+        <span class="news-title">第178回早慶対抗ゴルフ 開催案内</span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2026.03.30</span>
+        <span class="news-tag">ゴルフ</span>
+        <span class="news-title">第314回ゴルフ例会 結果報告</span>
+      </div>
+      <div class="news-item">
+        <span class="news-date">2026.02.18</span>
+        <span class="news-tag">ゴルフ</span>
+        <span class="news-title">第314回ゴルフ例会 開催のご案内</span>
+      </div>
+    </div>
+    <div class="news-more reveal">
+      <a href="news.html" class="news-more-btn">イベント情報一覧 <span>&#8250;</span></a>
+    </div>
+  </div>
+</section>
+
 <!-- INSTAGRAM BANNER -->
 <div id="insta-banner">
   <div class="insta-banner-inner">
@@ -972,7 +1082,7 @@
     </div>
     <div class="insta-text">
       <div class="insta-label">Follow Us on Instagram</div>
-      <div class="insta-headline">最新イベント情報はインスタで</div>
+      <div class="insta-headline">イベントの雰囲気はインスタから</div>
       <div class="insta-handle">@bkk_mitakai</div>
     </div>
     <a href="https://www.instagram.com/bkk_mitakai/" target="_blank" class="insta-cta-btn">
@@ -1249,6 +1359,7 @@
   <div class="footer-inner">
     <div class="footer-logo">BANGKOK MITAKAI ／ バンコク三田会</div>
     <ul class="footer-links">
+      <li><a href="#news">ニュース</a></li>
       <li><a href="#chairman">会長挨拶</a></li>
       <li><a href="#officers">役員紹介</a></li>
       <li><a href="#events">主な行事</a></li>

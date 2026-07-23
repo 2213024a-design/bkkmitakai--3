@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ニュース一覧 ｜ バンコク三田会</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Shippori+Mincho:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #001f61;
+      --deep-navy: #000e3a;
+      --crimson: #9b1d28;
+      --gold: #c9a84c;
+      --gold-light: #e8d5a3;
+      --cream: #f9f5ee;
+      --white: #ffffff;
+      --text-dark: #1a1a2e;
+      --text-mid: #4a4a6a;
+      --text-light: #8a8aaa;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Serif JP', serif;
+      background: var(--cream);
+      color: var(--text-dark);
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(0, 31, 97, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+      display: flex; align-items: stretch;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold-light);
+      font-size: 1rem;
+      letter-spacing: 0.14em;
+      font-weight: 300;
+      display: flex; align-items: center;
+      padding: 0 32px;
+      border-right: 1px solid rgba(201,168,76,0.2);
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); font-weight: 600; }
+    .nav-links { display: flex; list-style: none; flex: 1; }
+    .nav-links li { display: flex; }
+    .nav-links a {
+      display: flex; align-items: center;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      padding: 0 22px;
+      font-family: 'Noto Serif JP', serif;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      transition: color 0.25s, background 0.25s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--gold); background: rgba(201,168,76,0.05); }
+    .nav-links a.nav-active { color: var(--gold); background: rgba(201,168,76,0.07); }
+    .nav-cta {
+      background: var(--crimson) !important;
+      color: white !important;
+      border: none !important;
+      padding: 0 28px !important;
+      letter-spacing: 0.12em !important;
+    }
+    .nav-cta:hover { background: #b52232 !important; }
+    @media (max-width: 900px) {
+      .nav-links a { padding: 0 14px; font-size: 0.7rem; }
+      .nav-logo { padding: 0 20px; font-size: 0.88rem; }
+    }
+    @media (max-width: 640px) { .nav-links { display: none; } }
+
+    /* ─── PAGE HEADER ─── */
+    #page-header {
+      background: linear-gradient(160deg, var(--deep-navy) 0%, #001f61 100%);
+      padding: 140px 40px 60px;
+      text-align: center;
+    }
+    .ph-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .ph-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 600;
+      color: var(--white);
+    }
+    .ph-title-en {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(232,213,163,0.6);
+      margin-top: 6px;
+    }
+    .ph-back {
+      display: inline-block;
+      margin-top: 28px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 2px;
+      transition: color 0.25s;
+    }
+    .ph-back:hover { color: var(--gold); }
+
+    /* ─── NEWS LIST ─── */
+    #news-list-page {
+      padding: 64px 40px 120px;
+    }
+    .nlp-inner { max-width: 900px; margin: 0 auto; }
+
+    /* フィルタタブ */
+    .nlp-filters {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .nlp-filter-btn {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--text-mid);
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,0.1);
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .nlp-filter-btn:hover { border-color: var(--gold); color: var(--navy); }
+    .nlp-filter-btn.active {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
+    }
+
+    .news-list { border-top: 1px solid rgba(0,0,0,0.08); }
+    .news-item {
+      display: flex;
+      align-items: baseline;
+      gap: 28px;
+      padding: 22px 4px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      transition: background 0.25s;
+    }
+    .news-item:hover { background: #faf8f3; }
+    .news-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+      width: 100px;
+    }
+    .news-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--crimson);
+      border: 1px solid rgba(155,29,40,0.3);
+      padding: 2px 10px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .news-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.92rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    @media (max-width: 640px) {
+      .news-item { flex-wrap: wrap; gap: 8px 16px; }
+      .news-date { width: auto; }
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--deep-navy);
+      padding: 48px 40px;
+      border-top: 1px solid rgba(201,168,76,0.15);
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold-light);
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+    }
+    .footer-links { display: flex; gap: 28px; list-style: none; }
+    .footer-links a {
+      color: rgba(255,255,255,0.35);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.08em;
+    }
+    @media (max-width: 768px) {
+      .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo"><span>バンコク</span>三田会</a>
+  <ul class="nav-links">
+    <li><a href="index.html#news" class="nav-active">ニュース</a></li>
+    <li><a href="index.html#chairman">会長挨拶</a></li>
+    <li><a href="index.html#officers">役員紹介</a></li>
+    <li><a href="index.html#events">主な行事</a></li>
+    <li><a href="index.html#atmosphere">雰囲気</a></li>
+    <li><a href="index.html#contact">お問い合わせ</a></li>
+    <li><a href="https://forms.gle/1RhCwgDTEwSMsF7V9" class="nav-cta">入会申込</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div id="page-header">
+  <div class="ph-label">LATEST UPDATES</div>
+  <h1 class="ph-title">ニュース一覧</h1>
+  <div class="ph-title-en">All News & Announcements</div>
+  <a href="index.html" class="ph-back">← トップページに戻る</a>
+</div>
+
+<!-- NEWS LIST -->
+<section id="news-list-page">
+  <div class="nlp-inner">
+    <div class="nlp-filters">
+      <button class="nlp-filter-btn active" data-filter="all">すべて</button>
+      <button class="nlp-filter-btn" data-filter="ゴルフ">ゴルフ会</button>
+      <button class="nlp-filter-btn" data-filter="早慶戦">早慶対抗</button>
+      <button class="nlp-filter-btn" data-filter="総会">総会</button>
+      <button class="nlp-filter-btn" data-filter="サロン">三田サロン</button>
+    </div>
+
+    <div class="news-list">
+      <div class="news-item" data-tag="ゴルフ">
+        <span class="news-date">2026.06.05</span>
+        <span class="news-tag">ゴルフ</span>
+        <span class="news-title">第316回ゴルフ例会 開催のご案内</span>
+      </div>
+      <div class="news-item" data-tag="早慶戦">
+        <span class="news-date">2026.06.04</span>
+        <span class="news-tag">早慶戦</span>
+        <span class="news-title">第178回早慶対抗ゴルフ 結果報告</span>
+      </div>
+      <div class="news-item" data-tag="早慶戦">
+        <span class="news-date">2026.04.02</span>
+        <span class="news-tag">早慶戦</span>
+        <span class="news-title">第178回早慶対抗ゴルフ 開催案内</span>
+      </div>
+      <div class="news-item" data-tag="ゴルフ">
+        <span class="news-date">2026.03.30</span>
+        <span class="news-tag">ゴルフ</span>
+        <span class="news-title">第314回ゴルフ例会 結果報告</span>
+      </div>
+      <div class="news-item" data-tag="ゴルフ">
+        <span class="news-date">2026.02.18</span>
+        <span class="news-tag">ゴルフ</span>
+        <span class="news-title">第314回ゴルフ例会 開催のご案内</span>
+      </div>
+      <!-- 過去分はここに追記していく形（新しい順） -->
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">BANGKOK MITAKAI ／ バンコク三田会</div>
+    <ul class="footer-links">
+      <li><a href="index.html#news">ニュース</a></li>
+      <li><a href="index.html#chairman">会長挨拶</a></li>
+      <li><a href="index.html#officers">役員紹介</a></li>
+      <li><a href="index.html#events">主な行事</a></li>
+      <li><a href="index.html#contact">お問い合わせ</a></li>
+    </ul>
+    <div class="footer-copy">© 2026 Bangkok Mitakai. All Rights Reserved.</div>
+  </div>
+</footer>
+
+<script>
+  // フィルタ切り替え
+  const buttons = document.querySelectorAll('.nlp-filter-btn');
+  const items = document.querySelectorAll('.news-item');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      items.forEach(item => {
+        item.style.display = (filter === 'all' || item.dataset.tag === filter) ? 'flex' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>
